@@ -1,6 +1,8 @@
 jQuery ->
 
-  $('.note').draggable()
+  $('.postit').draggable
+    handle: '.handle'
+    stack: '.postit'
 
   $('input').keyup ->
     $(this).width( (($(this).val().length) + 1) * 9 + 'px' )
