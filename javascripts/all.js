@@ -1,13 +1,3 @@
-(function() {
-
-  jQuery(function() {
-    $('.note').draggable();
-    return $('input').keyup(function() {
-      return $(this).width((($(this).val().length) + 1) * 9 + 'px');
-    }).trigger('keyup');
-  });
-
-}).call(this);
 /**
  * Lawnchair!
  * --- 
@@ -431,3 +421,49 @@ Lawnchair.adapter('window-name', (function(index, store) {
 /////
 })())
 ;
+(function() {
+  var store;
+
+  window.TodosListController = function($scope) {
+    return $scope.todos = [
+      {
+        task: "Wake up"
+      }, {
+        task: "Brush teeth"
+      }, {
+        task: "Shower"
+      }, {
+        task: "Have breakfast"
+      }, {
+        task: "Go to work"
+      }, {
+        task: "Go to the gym"
+      }, {
+        task: "Go to bed"
+      }
+    ];
+  };
+
+  store = new Lawnchair({
+    name: "testing"
+  }, function(store) {
+    var me;
+    me = {
+      key: "brian"
+    };
+    store.save(me);
+    return store.get("brian", function(me) {
+      return console.log(me);
+    });
+  });
+
+  jQuery(function() {
+    return $('.todo').draggable({
+      handle: '.handle',
+      stack: '.todo'
+    });
+  });
+
+}).call(this);
+
+
