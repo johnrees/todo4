@@ -10,16 +10,7 @@ body {
   font-size: 14px;
 }
 
-input {
-  background: none;
-  border: none;
-  color: #FFF;
-  display: inline;
-  width: auto;
-  margin-left: 10px;
-}
-
-.postit {
+.todo {
   border-radius: 6px;
   background: #C14543;
   color: #FFF;
@@ -37,6 +28,6 @@ input {
   margin-bottom: 5px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
-.note {
+.task {
   outline: none !important;
 }

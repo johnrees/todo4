@@ -3,4 +3,5 @@
 source 'http://rubygems.org'
 
 gem "middleman", "~>3.0.13"
+gem 'json', '~> 1.7.7'
 gem 'middleman-gh-pages'

@@ -2,12 +2,7 @@
 title: Grid
 ---
 
-#todos
-
-  .postit
+%ul#todos
+  .todo{'ng-repeat' => 'todo in todos'}
     .handle
-    %span.note{contenteditable: 'true', spellcheck: 'false'} a
-
-  .postit
-    .handle
-    %span.note{contenteditable: 'true', spellcheck: 'false'} b
+    %span.task{contenteditable: 'true', spellcheck: 'false'} {{ todo.task }}
