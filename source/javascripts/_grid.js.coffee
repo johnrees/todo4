@@ -16,6 +16,21 @@ store = new Lawnchair({name: "testing"}, (store) ->
     console.log me
 )
 
+class Point
+  constructor: (x,y) ->
+    @x = parseInt x
+    @y = parseInt y
+
+getPosition = (object, center) ->
+  position = new Point(object.position().top, object.position().left)
+  return new Point( center.x - position.x, center.y - position.y)
+
+window.getOrder = ->
+  center = new Point( $(window).width()/2, $(window).height()/2 )
+  $('.todo').each ->
+    console.log center
+    console.log getPosition($(this), center)
+
 jQuery ->
   $('.todo').draggable
     handle: '.handle'
