@@ -1,5 +1,5 @@
 !!!
-%html{"ng-app" => true}
+%html
 
   %head
     %meta{:charset => "utf-8"}/
@@ -8,7 +8,6 @@
     %title= data.page.title || "Todo4"
     = stylesheet_link_tag "normalize", "all"
 
-  %body{:class => page_classes, 'ng-controller' => 'window.TodosListController'}
+  %body{:class => page_classes}
     = yield
-    / = javascript_include_tag "//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"
     = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js", "http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.2.min.js", "all"
