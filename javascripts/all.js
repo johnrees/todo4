@@ -476,8 +476,10 @@ Lawnchair.adapter('window-name', (function(index, store) {
       });
       text.on('dblclick', function(evt) {
         evt.cancelBubble = true;
-        this.setText(prompt('New Text:', this.getText()));
-        return save();
+        if (this.getText()) {
+          this.setText(prompt('New Text:', this.getText()));
+          return save();
+        }
       });
       label.on('touchstart', function(evt) {
         return evt.cancelBubble = true;
