@@ -82,8 +82,9 @@ init = (e = null) ->
 
     text.on 'dblclick', (evt) ->
       evt.cancelBubble = true
-      this.setText(prompt('New Text:', this.getText()))
-      save()
+      if this.getText()
+        this.setText(prompt('New Text:', this.getText()))
+        save()
 
     label.on 'touchstart', (evt) ->
       evt.cancelBubble = true
