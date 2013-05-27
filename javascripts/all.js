@@ -422,45 +422,94 @@ Lawnchair.adapter('window-name', (function(index, store) {
 })())
 ;
 (function() {
-  var store;
+  var init;
 
-  window.TodosListController = function($scope) {
-    return $scope.todos = [
-      {
-        task: "Wake up"
-      }, {
-        task: "Brush teeth"
-      }, {
-        task: "Shower"
-      }, {
-        task: "Have breakfast"
-      }, {
-        task: "Go to work"
-      }, {
-        task: "Go to the gym"
-      }, {
-        task: "Go to bed"
-      }
-    ];
+  init = function(e) {
+    var bg, bglayer, layer, makeLabel, rectX, rectY, save;
+    if (e == null) {
+      e = null;
+    }
+    if (e) {
+      window.stage = Kinetic.Node.create(e, 'container');
+    } else {
+      window.stage = new Kinetic.Stage({
+        container: "container"
+      });
+    }
+    window.stage.setWidth(window.innerWidth);
+    window.stage.setHeight(window.innerHeight);
+    bglayer = new Kinetic.Layer();
+    bg = new Kinetic.Rect({
+      x: 0,
+      y: 0,
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+    layer = new Kinetic.Layer();
+    rectX = stage.getWidth() / 2 - 50;
+    rectY = stage.getHeight() / 2 - 25;
+    makeLabel = function($text, $x, $y) {
+      var label, tag, text;
+      label = new Kinetic.Label({
+        x: $x,
+        y: $y,
+        draggable: true,
+        dragOnTop: true
+      });
+      tag = new Kinetic.Tag({
+        fill: "yellow"
+      });
+      text = new Kinetic.Text({
+        text: $text,
+        fontSize: 18,
+        padding: 20,
+        fill: "black"
+      });
+      label.on('dragstart touchstart mousedown', function() {
+        return this.moveToTop();
+      });
+      label.on('mouseover', function() {
+        return document.body.style.cursor = 'pointer';
+      });
+      label.on('mouseout', function() {
+        return document.body.style.cursor = 'default';
+      });
+      text.on('dblclick', function(evt) {
+        evt.cancelBubble = true;
+        this.setText(prompt('New Text:', this.getText()));
+        return save();
+      });
+      label.on('touchstart', function(evt) {
+        return evt.cancelBubble = true;
+      });
+      label.add(tag).add(text);
+      return label;
+    };
+    stage.on('touchstart dblclick', function(evt) {
+      layer.add(makeLabel(prompt('New Tag:'), evt.layerX, evt.layerY));
+      return save();
+    });
+    save = function() {
+      layer.draw();
+      return window.store.save({
+        key: 'stage',
+        options: window.stage.toJSON()
+      });
+    };
+    stage.on('dragend', save);
+    bglayer.add(bg);
+    return window.stage.add(bglayer).add(layer);
   };
 
-  store = new Lawnchair({
-    name: "testing"
+  window.store = new Lawnchair({
+    name: window.location.hash || "testing"
   }, function(store) {
-    var me;
-    me = {
-      key: "brian"
-    };
-    store.save(me);
-    return store.get("brian", function(me) {
-      return console.log(me);
-    });
-  });
-
-  jQuery(function() {
-    return $('.todo').draggable({
-      handle: '.handle',
-      stack: '.todo'
+    return store.get("stage", function(me) {
+      if (me && me.options) {
+        return init(me.options);
+      } else {
+        return init();
+      }
     });
   });
 
