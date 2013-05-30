@@ -1,37 +1,3 @@
-# class Point
-#   constructor: (x,y) ->
-#     @x = parseInt x
-#     @y = parseInt y
-
-# getPosition = (object, center) ->
-#   position = new Point(object.position().top, object.position().left)
-#   return new Point( center.x - position.x, center.y - position.y)
-
-# window.getOrder = ->
-#   center = new Point( $(window).width()/2, $(window).height()/2 )
-#   $('.todo').each ->
-#     console.log center
-#     console.log getPosition($(this), center)
-
-
-
-#   $('.todo').each ->
-
-#     Hammer( $(this), { drag_max_touches:0 }).on "touch drag", (ev) ->
-#       ev.gesture.preventDefault()
-#       touches = ev.gesture.touches
-#       for touch in touches
-#         target = touch.target
-#         target.css
-#           zIndex: 100
-#           left: touch.pageX-20
-#           top: touch.pageY-20
-
-# Zepto ->
-#   alert 'a'
-
-
-
 init = (e = null) ->
 
   if e
@@ -51,6 +17,34 @@ init = (e = null) ->
     width: window.innerWidth
     height: window.innerHeight
 
+  tl = new Kinetic.Rect
+    x: 0
+    y: 0
+    width: window.innerWidth/2
+    height: window.innerHeight/2
+    fill: '#333'
+
+  tr = new Kinetic.Rect
+    x: window.innerWidth/2
+    y: 0
+    width: window.innerWidth/2
+    height: window.innerHeight/2
+    fill: '#555'
+
+  bl = new Kinetic.Rect
+    x: 0
+    y: window.innerHeight/2
+    width: window.innerWidth/2
+    height: window.innerHeight/2
+    fill: '#777'
+
+  br = new Kinetic.Rect
+    x: window.innerWidth/2
+    y: window.innerHeight/2
+    width: window.innerWidth/2
+    height: window.innerHeight/2
+    fill: '#999'
+
   layer = new Kinetic.Layer()
   rectX = stage.getWidth() / 2 - 50
   rectY = stage.getHeight() / 2 - 25
@@ -63,12 +57,13 @@ init = (e = null) ->
       draggable: true
       dragOnTop: true
 
-    tag = new Kinetic.Tag(fill: "yellow")
+    tag = new Kinetic.Tag(fill: "#F5F5F5")
 
     text = new Kinetic.Text
       text: $text
-      fontSize: 18
-      padding: 20
+      fontSize: 12
+      fontFamily: "Menlo"
+      padding: 6
       fill: "black"
 
     label.on 'dragstart touchstart mousedown', ->
@@ -93,10 +88,7 @@ init = (e = null) ->
 
     return label
 
-  # makeLabel "RARR"
-
   stage.on 'touchstart dblclick', (evt) ->
-    # alert JSON.stringify(evt)
     layer.add(makeLabel prompt('New Tag:'), evt.layerX, evt.layerY)
     save()
 
@@ -106,6 +98,10 @@ init = (e = null) ->
 
   stage.on 'dragend', save
   bglayer.add bg
+  bglayer.add tl
+  bglayer.add tr
+  bglayer.add bl
+  bglayer.add br
   window.stage.add(bglayer).add(layer)
 
 
